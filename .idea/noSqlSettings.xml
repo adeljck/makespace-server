@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="NoSqlConfiguration">
+    <option name="serverConfigurations">
+      <list>
+        <ServerConfiguration>
+          <option name="authenticationSettings">
+            <AuthenticationSettings>
+              <option name="password" value="weiruyi" />
+            </AuthenticationSettings>
+          </option>
+          <option name="connectOnIdeStartup" value="true" />
+          <option name="databaseVendor" value="DatabaseVendor{name='RedisDB'}" />
+          <option name="label" value="makespace" />
+          <option name="serverUrl" value="www.adeljck.cn:6379" />
+        </ServerConfiguration>
+      </list>
+    </option>
+  </component>
+</project>
