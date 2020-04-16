@@ -12,8 +12,10 @@ import (
 func UserRegiste(c *gin.Context) {
 	var service service.User
 	if err := c.ShouldBindJSON(&service); err == nil {
-		if err := service.Registe(); err != nil {
-			c.JSON(http.StatusOK, err)
+		if response,err := service.Registe(); response != nil {
+			c.JSON(http.StatusOK,response)
+		}else{
+			c.JSON(http.StatusOK,err)
 		}
 	} else {
 		c.JSON(http.StatusOK, ErrorResponse(err))

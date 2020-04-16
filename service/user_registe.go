@@ -63,13 +63,16 @@ func (service *User) valid() *serializer.Response {
 	return nil
 }
 
-func (user *User) Registe() (*serializer.Response) {
+func (user *User) Registe() (*serializer.PureErrorResponse, *serializer.Response) {
 	if err := TagValid(user); err != nil {
-		return  err
+		return nil, err
 	}
 	if err := user.valid(); err != nil {
-		return  err
+		return nil, err
 	}
 	module.CLIENT.Mongo.Database("makespace").Collection("user").InsertOne(context.TODO(), Trans(user))
-	return nil
+	return &serializer.PureErrorResponse{
+		Status: 200,
+		Msg:    "success",
+	}, nil
 }

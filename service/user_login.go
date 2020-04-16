@@ -16,7 +16,7 @@ import (
 // UserLoginService 管理用户登录的服务
 type UserLoginService struct {
 	UserName string `form:"username" json:"username" validate:"required"`
-	Password string `form:"password" json:"password" validate:"required,"`
+	Password string `form:"password" json:"password" validate:"required"`
 }
 type Info struct {
 	Name   string             `form:"name" json:"name" bson:"name"`

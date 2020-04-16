@@ -30,7 +30,7 @@ func RedisInit() {
 		Wait:        true,
 		Dial: func() (redis.Conn, error) {
 			con, err := redis.Dial("tcp", os.Getenv("REDIS_HOST"),
-				//redis.DialPassword(os.Getenv("REDIS_PASSWORD")),
+				redis.DialPassword(os.Getenv("REDIS_PASSWORD")),
 				redis.DialConnectTimeout(time.Duration(timeout)*time.Second),
 				redis.DialReadTimeout(time.Duration(timeout)*time.Second),
 				redis.DialWriteTimeout(time.Duration(timeout)*time.Second))

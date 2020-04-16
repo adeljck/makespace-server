@@ -32,9 +32,9 @@ func SetPassword(password string) string {
 }
 
 // CheckPassword 校验密码
-func CheckPassword(username string, password string) bool {
+func CheckPassword(email string, password string) bool {
 	var user User
-	CLIENT.Mongo.Database("makespace").Collection("user").FindOne(context.TODO(), bson.M{"username": username}, options.FindOne().SetProjection(bson.M{"password": 1})).Decode(&user)
+	CLIENT.Mongo.Database("makespace").Collection("user").FindOne(context.TODO(), bson.M{"email":email }, options.FindOne().SetProjection(bson.M{"password": 1})).Decode(&user)
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		return false

@@ -35,7 +35,7 @@ func NewRouter() *gin.Engine {
 		v1.POST("/companyapply",api.UserLogin)
 		authed := v1.Group("/", middleware.JWTAuth())
 		{
-			authed.POST("/user/logout", api.UserLogout)
+			authed.POST("/logout", api.UserLogout)
 		}
 	}
 	v1.GET("/project/list/*page",api.ProjectList)
