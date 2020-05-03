@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"crypto/rand"
 	"errors"
-	"github.com/garyburd/redigo/redis"
-	"makespace-remaster/conf"
 	"makespace-remaster/serializer"
 	"makespace-remaster/service"
 	"math/big"
@@ -20,7 +18,7 @@ import (
 // JWTAuth 中间件，检查token
 func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.Request.Header.Get("token")
+		token := c.Request.Header.Get("Athorization")
 		if token == "" {
 			c.JSON(http.StatusOK, serializer.PureErrorResponse{
 				Status: -1,
@@ -37,25 +35,6 @@ func JWTAuth() gin.HandlerFunc {
 				Status: -1,
 				Msg:    "不合法的token",
 			})
-			c.Abort()
-			return
-		}
-		conn, err := conf.RedisPool.Dial()
-		ok, err := redis.Bool(conn.Do("EXISTS", claims.Id))
-		if err != nil {
-			c.JSON(http.StatusOK, serializer.PureErrorResponse{
-				Status: -1,
-				Msg:    "不合法的token",
-			})
-			c.Abort()
-			return
-		}
-		if !ok {
-			c.JSON(http.StatusInternalServerError, serializer.PureErrorResponse{
-				Status: 5001,
-				Msg:    "Token过期",
-			})
-			conn.Close()
 			c.Abort()
 			return
 		}
@@ -191,22 +170,12 @@ func GenerateToken(c *gin.Context, info *service.Info) {
 		})
 		return
 	}
-	conn, err := conf.RedisPool.Dial()
-	_, err = conn.Do("SET", info.ID.Hex(), token, "EX", "1800")
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, serializer.Response{
-			Status: 5001,
-			Msg:    "server internal error",
-		})
-		return
-	}
 	c.JSON(http.StatusOK,serializer.Response{
 		Status: 200,
 		Data:   gin.H{"_id":info.ID.Hex(),"token":token,"name":info.Name},
 		Msg:    "success",
 	})
 	c.Request.Header.Set("token",token)
-	conn.Close()
 	return
 
 }

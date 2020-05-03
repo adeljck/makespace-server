@@ -39,5 +39,6 @@ func NewRouter() *gin.Engine {
 		}
 	}
 	v1.GET("/project/list/*page",api.ProjectList)
+	v1.POST("/check",api.TokenCheck)
 	return r
 }

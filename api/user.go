@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"makespace-remaster/conf"
 	"makespace-remaster/middleware"
@@ -39,11 +40,16 @@ func UserLogin(c *gin.Context) {
 // UserLogout 用户登出
 func UserLogout(c *gin.Context) {
 	j := middleware.NewJWT()
-	claims, _ := j.ParseToken(c.Request.Header.Get("token"))
+	claims, _ := j.ParseToken(c.Request.Header.Get("Athorization"))
 	conn, _ := conf.RedisPool.Dial()
 	conn.Do("DEL", claims.Id)
 	c.JSON(200, serializer.PureErrorResponse{
 		Status: 0,
 		Msg:    "登出成功",
 	})
+}
+func TokenCheck(c *gin.Context){
+	j := middleware.NewJWT()
+	claims, _ := j.ParseToken(c.Request.Header.Get("Athorization"))
+	fmt.Println(claims)
 }
