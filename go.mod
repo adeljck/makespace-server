@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/TruthHun/CloudStore v0.0.0-20191230140227-5712bf67b129 // indirect
+	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/aliyun/aliyun-oss-go-sdk v2.0.5+incompatible
 	github.com/astaxie/beego v1.12.1 // indirect
 	github.com/baidubce/bce-sdk-go v0.9.6 // indirect
@@ -28,7 +29,8 @@ require (
 	github.com/qiniu/x v7.0.8+incompatible // indirect
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.4.2
-	github.com/swaggo/swag v1.6.5 // indirect
+	github.com/swaggo/gin-swagger v1.2.0
+	github.com/swaggo/swag v1.6.5
 	github.com/tencentyun/cos-go-sdk-v5 v0.0.0-20200120023323-87ff3bc489ac // indirect
 	github.com/upyun/go-sdk v2.1.0+incompatible // indirect
 	github.com/urfave/cli v1.22.4 // indirect

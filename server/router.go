@@ -3,11 +3,13 @@ package server
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"makespace-remaster/api"
+	_ "makespace-remaster/docs"
 	"makespace-remaster/middleware"
 	"time"
 )
-
 func NewRouter() *gin.Engine {
 	r := gin.Default()
 	r.Use(middleware.NoCache)
@@ -28,17 +30,17 @@ func NewRouter() *gin.Engine {
 		)
 	}))
 	r.GET("/api/v1/ping",api.Ping)
+	r.GET("/api/v1/swagger/*any",ginSwagger.WrapHandler(swaggerFiles.Handler))
 	v1 := r.Group("api/v1/")
 	{
 		v1.POST("/registe", api.UserRegiste)
 		v1.POST("/login", api.UserLogin)
-		v1.POST("/companyapply",api.UserLogin)
-		authed := v1.Group("/", middleware.JWTAuth())
-		{
-			authed.POST("/logout", api.UserLogout)
-		}
+		v1.POST("/enterpriseapply",api.EnterpriseApply)
+		//authed := v1.Group("/", middleware.JWTAuth())
+		//{
+		//	authed.POST("/check",api.TokenCheck)
+		//}
 	}
 	v1.GET("/project/list/*page",api.ProjectList)
-	v1.POST("/check",api.TokenCheck)
 	return r
 }

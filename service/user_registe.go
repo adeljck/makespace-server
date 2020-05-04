@@ -20,7 +20,31 @@ type User struct {
 	Class      string    `form:"class" json:"class" validate:"required,min=4,max=10"`
 	Date       time.Time `form:"date" json:"date" validate:"required"`
 }
-
+func (user *User) trans() module.User {
+	data := module.User{
+		Password:   module.SetPassword(user.Password),
+		Phone:      user.Phone,
+		Email:      user.Email,
+		Name:       user.Name,
+		Academy:    user.Academy,
+		StudentId:  user.Sid,
+		Major:      user.Major,
+		Class:      user.Class,
+		Date:       user.Date,
+		CreateTime: time.Now(),
+		Role:       1,
+		Avatar:     "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80",
+		Status:     module.ACTIVE,
+	}
+	return data
+}
+func (service *User) countData(filter interface{}) (exists bool) {
+	count, _ := module.CLIENT.Mongo.Database("makespace").Collection("user").CountDocuments(context.TODO(), filter)
+	if count == 0 {
+		return false
+	}
+	return true
+}
 func (service *User) valid() *serializer.Response {
 	var errors []serializer.TagError = make([]serializer.TagError, 0)
 	if service.Repassword != service.Password {
@@ -29,25 +53,31 @@ func (service *User) valid() *serializer.Response {
 			Error: "两次输入的密码不相同",
 		})
 	}
-	if CountData(bson.M{"name": service.Name, "role": module.NORMAL}) {
+	if service.countData(bson.M{"name": service.Name, "role": module.NORMAL}) {
 		errors = append(errors, serializer.TagError{
 			Tag:   "name",
 			Error: "该主体已注册账号",
 		})
 	}
-	if CountData(bson.M{"student_id": service.Sid, "role": module.NORMAL}) {
+	if service.countData(bson.M{"student_id": service.Sid, "role": module.NORMAL}) {
 		errors = append(errors, serializer.TagError{
 			Tag:   "sid",
 			Error: "学号已被注册",
 		})
 	}
-	if CountData(bson.M{"email": service.Email}) {
+	if service.countData(bson.M{"email": service.Email}) {
 		errors = append(errors, serializer.TagError{
 			Tag:   "email",
 			Error: "邮箱已被注册",
 		})
 	}
-	if CountData(bson.M{"phone": service.Phone}) {
+	if count, _ := module.CLIENT.Mongo.Database("makespace").Collection("academy").CountDocuments(context.TODO(), bson.M{"name": service.Academy});count==0{
+		errors = append(errors, serializer.TagError{
+			Tag:   "academy",
+			Error: "学院不存在",
+		})
+	}
+	if service.countData(bson.M{"phone": service.Phone}) {
 		errors = append(errors, serializer.TagError{
 			Tag:   "phone",
 			Error: "手机号已被注册",
@@ -55,7 +85,7 @@ func (service *User) valid() *serializer.Response {
 	}
 	if len(errors) != 0 {
 		return &serializer.Response{
-			Status: 40001,
+			Status: 50001,
 			Data:   errors,
 			Msg:    "something wrong",
 		}
@@ -70,7 +100,7 @@ func (user *User) Registe() (*serializer.PureErrorResponse, *serializer.Response
 	if err := user.valid(); err != nil {
 		return nil, err
 	}
-	module.CLIENT.Mongo.Database("makespace").Collection("user").InsertOne(context.TODO(), Trans(user))
+	module.CLIENT.Mongo.Database("makespace").Collection("user").InsertOne(context.TODO(), user.trans())
 	return &serializer.PureErrorResponse{
 		Status: 200,
 		Msg:    "success",

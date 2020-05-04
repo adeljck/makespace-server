@@ -38,27 +38,34 @@ func (userLoginService *UserLoginService) valid() *serializer.Response {
 			TagErrors = append(TagErrors, tagerror)
 		}
 		return &serializer.Response{
-			Status: 40001,
+			Status: 40003,
 			Data:   TagErrors,
 			Msg:    "tag error",
 		}
 	}
 	return nil
 }
+func (service *UserLoginService) countData(filter interface{}) (exists bool) {
+	count, _ := module.CLIENT.Mongo.Database("makespace").Collection("user").CountDocuments(context.TODO(), filter)
+	if count == 0 {
+		return false
+	}
+	return true
+}
 func (service *UserLoginService) Login() (*Info, *serializer.Response) {
 	if err := service.valid(); err != nil {
 		return nil, err
 	}
-	if !CountData(bson.M{"email": service.UserName}) {
+	if service.countData(bson.M{"email": service.UserName}) {
 		return nil, &serializer.Response{
-			Status: 40001,
+			Status: 40005,
 			Msg:    "账号或密码错误",
 		}
 	}
 
 	if module.CheckPassword(service.UserName, service.Password) == false {
 		return nil, &serializer.Response{
-			Status: 40001,
+			Status: 40005,
 			Msg:    "账号或密码错误",
 		}
 	}
@@ -66,7 +73,7 @@ func (service *UserLoginService) Login() (*Info, *serializer.Response) {
 	module.CLIENT.Mongo.Database("makespace").Collection("user").FindOne(context.TODO(), bson.M{"email": service.UserName}, options.FindOne().SetProjection(bson.D{{"_id", 1}, {"status", 1}, {"name", 1}})).Decode(&data)
 	if data.Status == module.DEACTIVE {
 		return nil, &serializer.Response{
-			Status: 40001,
+			Status: 40006,
 			Data:   nil,
 			Msg:    "unauthrized account",
 		}

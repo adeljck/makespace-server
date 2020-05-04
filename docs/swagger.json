@@ -1,8 +1,326 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {},
-        "license": {}
+        "description": "湖南工学院创客系统API介绍",
+        "title": "湖南工学院创客系统API",
+        "termsOfService": "http://www.hnit.edu.cn",
+        "contact": {
+            "name": "adeljck",
+            "url": "http://adeljck.github.io",
+            "email": "fuck@you.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
     },
-    "paths": {}
+    "host": "127.0.0.1:3000",
+    "basePath": "/api/v1",
+    "paths": {
+        "/enterpriseapply": {
+            "post": {
+                "description": "企业入驻",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "企业入驻",
+                "parameters": [
+                    {
+                        "description": "enterprise",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.Enterprise"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\":200, \"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4001": {
+                        "description": "code\":4001,\"data\":null,\"msg\":\"JSON类型不匹配\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4002": {
+                        "description": "code\":4002,\"data\":null,\"msg\":\"参数错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4003": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"Tag Error\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "用户登陆",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "用户登陆",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.UserLoginService"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"data\":{\"_id\":000000,\"token\":token,\"name\":adeljck},\"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4001": {
+                        "description": "code\":4001,\"data\":null,\"msg\":\"JSON类型不匹配\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4002": {
+                        "description": "code\":4002,\"data\":null,\"msg\":\"参数错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4003": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"Tag Error\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4005": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"账号或密码错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4006": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"unauthrized account\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ping": {
+            "get": {
+                "description": "服务器状态检查",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "服务器状态检查",
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 0,\"data\": null,\"msg\": \"Pong\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/registe": {
+            "post": {
+                "description": "用户注册",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "用户注册",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"data\":null,\"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4001": {
+                        "description": "code\":4001,\"data\":null,\"msg\":\"JSON类型不匹配\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4002": {
+                        "description": "code\":4002,\"data\":null,\"msg\":\"参数错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4003": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"Tag Error\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "serializer.Response": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object"
+                },
+                "msg": {
+                    "type": "object"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "service.Enterprise": {
+            "type": "object",
+            "required": [
+                "companycode",
+                "date",
+                "email",
+                "industry",
+                "info",
+                "legal",
+                "legalid",
+                "name",
+                "phone",
+                "site"
+            ],
+            "properties": {
+                "companycode": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "industry": {
+                    "type": "string"
+                },
+                "info": {
+                    "type": "string"
+                },
+                "legal": {
+                    "type": "string"
+                },
+                "legalid": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "site": {
+                    "type": "string"
+                }
+            }
+        },
+        "service.User": {
+            "type": "object",
+            "required": [
+                "academy",
+                "class",
+                "date",
+                "email",
+                "major",
+                "name",
+                "password",
+                "phone",
+                "repassword",
+                "sid"
+            ],
+            "properties": {
+                "academy": {
+                    "type": "string"
+                },
+                "class": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "major": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "repassword": {
+                    "type": "string"
+                },
+                "sid": {
+                    "type": "string"
+                }
+            }
+        },
+        "service.UserLoginService": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }

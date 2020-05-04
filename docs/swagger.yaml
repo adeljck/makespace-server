@@ -1,5 +1,222 @@
+basePath: /api/v1
+definitions:
+  serializer.Response:
+    properties:
+      data:
+        type: object
+      msg:
+        type: object
+      status:
+        type: integer
+    type: object
+  service.Enterprise:
+    properties:
+      companycode:
+        type: string
+      date:
+        type: string
+      email:
+        type: string
+      industry:
+        type: string
+      info:
+        type: string
+      legal:
+        type: string
+      legalid:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      site:
+        type: string
+    required:
+    - companycode
+    - date
+    - email
+    - industry
+    - info
+    - legal
+    - legalid
+    - name
+    - phone
+    - site
+    type: object
+  service.User:
+    properties:
+      academy:
+        type: string
+      class:
+        type: string
+      date:
+        type: string
+      email:
+        type: string
+      major:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      repassword:
+        type: string
+      sid:
+        type: string
+    required:
+    - academy
+    - class
+    - date
+    - email
+    - major
+    - name
+    - password
+    - phone
+    - repassword
+    - sid
+    type: object
+  service.UserLoginService:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+host: 127.0.0.1:3000
 info:
-  contact: {}
-  license: {}
-paths: {}
+  contact:
+    email: fuck@you.com
+    name: adeljck
+    url: http://adeljck.github.io
+  description: 湖南工学院创客系统API介绍
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://www.hnit.edu.cn
+  title: 湖南工学院创客系统API
+  version: "1.0"
+paths:
+  /enterpriseapply:
+    post:
+      consumes:
+      - application/json
+      description: 企业入驻
+      parameters:
+      - description: enterprise
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/service.Enterprise'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status":200, "msg": "success" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4001":
+          description: code":4001,"data":null,"msg":"JSON类型不匹配"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4002":
+          description: code":4002,"data":null,"msg":"参数错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4003":
+          description: code":4003,"data":null,"msg":"Tag Error"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 企业入驻
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登陆
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/service.UserLoginService'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"data":{"_id":000000,"token":token,"name":adeljck},"msg":
+            "success" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4001":
+          description: code":4001,"data":null,"msg":"JSON类型不匹配"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4002":
+          description: code":4002,"data":null,"msg":"参数错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4003":
+          description: code":4003,"data":null,"msg":"Tag Error"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4005":
+          description: code":4003,"data":null,"msg":"账号或密码错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4006":
+          description: code":4003,"data":null,"msg":"unauthrized account"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 用户登陆
+  /ping:
+    get:
+      consumes:
+      - '*/*'
+      description: 服务器状态检查
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 0,"data": null,"msg": "Pong" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 服务器状态检查
+  /registe:
+    post:
+      consumes:
+      - application/json
+      description: 用户注册
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/service.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"data":null,"msg": "success" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4001":
+          description: code":4001,"data":null,"msg":"JSON类型不匹配"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4002":
+          description: code":4002,"data":null,"msg":"参数错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4003":
+          description: code":4003,"data":null,"msg":"Tag Error"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 用户注册
 swagger: "2.0"
