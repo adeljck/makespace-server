@@ -148,6 +148,37 @@
                 }
             }
         },
+        "/project/list/{page}": {
+            "get": {
+                "description": "项目列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "项目列表",
+                "parameters": [
+                    {
+                        "description": "project",
+                        "name": "projects",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.Project"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"data\":{\"item\":[],total:0},\"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/registe": {
             "post": {
                 "description": "用户注册",
@@ -199,6 +230,23 @@
         }
     },
     "definitions": {
+        "module.Contact": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "qq": {
+                    "type": "string"
+                },
+                "wechat": {
+                    "type": "string"
+                }
+            }
+        },
         "serializer.Response": {
             "type": "object",
             "properties": {
@@ -256,6 +304,48 @@
                     "type": "string"
                 },
                 "site": {
+                    "type": "string"
+                }
+            }
+        },
+        "service.Project": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "attach": {
+                    "type": "string"
+                },
+                "comment_count": {
+                    "type": "integer"
+                },
+                "contact": {
+                    "type": "object",
+                    "$ref": "#/definitions/module.Contact"
+                },
+                "creator": {
+                    "type": "string"
+                },
+                "info": {
+                    "type": "string"
+                },
+                "money": {
+                    "type": "number"
+                },
+                "project_name": {
+                    "type": "string"
+                },
+                "short_info": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "stop_time": {
                     "type": "string"
                 }
             }

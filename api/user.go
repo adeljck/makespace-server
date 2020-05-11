@@ -78,3 +78,7 @@ func EnterpriseApply(c *gin.Context) {
 		c.JSON(http.StatusOK, ErrorResponse(err))
 	}
 }
+
+func ForgePassword(c *gin.Context){
+
+}

@@ -42,5 +42,6 @@ func NewRouter() *gin.Engine {
 		//}
 	}
 	v1.GET("/project/list/*page",api.ProjectList)
+	v1.POST("/project/search",api.SearchProject)
 	return r
 }

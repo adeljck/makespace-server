@@ -16,7 +16,7 @@ type PureErrorResponse struct {
 // DataList 基础列表结构
 type DataList struct {
 	Items interface{} `json:"items"`
-	Total int        `json:"total"`
+	Total int64        `json:"total"`
 }
 
 // TrackedErrorResponse 有追踪信息的错误响应
@@ -32,7 +32,7 @@ type TagError struct {
 }
 
 // BuildListResponse 列表构建器
-func BuildListResponse(items interface{}, total int) Response {
+func BuildListResponse(items interface{}, total int64) Response {
 	return Response{
 		Data: DataList{
 			Items: items,
