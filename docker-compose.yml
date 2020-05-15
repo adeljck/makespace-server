@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  db:
+      image: mongo:latest
+      container_name: db
+      volumes:
+        - /usr/local/data/db:/data/db
+        - /usr/local/var/log/mongodb:/var/log/mongodb
+      ports:
+        - "27017:27017"
+      command: --dbpath /data/db --logpath /var/log/mongodb/mongo.log
+      restart: always
+  web:
+    image: makespace
+    links:
+      - db
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - "80:3000"
+    container_name: makespace

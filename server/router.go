@@ -8,9 +8,12 @@ import (
 	"makespace-remaster/api"
 	_ "makespace-remaster/docs"
 	"makespace-remaster/middleware"
+	"os"
 	"time"
 )
+
 func NewRouter() *gin.Engine {
+	gin.SetMode(os.Getenv("GIN_MODE"))
 	r := gin.Default()
 	r.Use(middleware.NoCache)
 	r.Use(middleware.Options)
@@ -29,19 +32,19 @@ func NewRouter() *gin.Engine {
 			param.ErrorMessage,
 		)
 	}))
-	r.GET("/api/v1/ping",api.Ping)
-	r.GET("/api/v1/swagger/*any",ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.GET("/api/v1/ping", api.Ping)
+	r.GET("/api/v1/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	v1 := r.Group("api/v1/")
 	{
 		v1.POST("/registe", api.UserRegiste)
 		v1.POST("/login", api.UserLogin)
-		v1.POST("/enterpriseapply",api.EnterpriseApply)
+		v1.POST("/enterpriseapply", api.EnterpriseApply)
 		//authed := v1.Group("/", middleware.JWTAuth())
 		//{
 		//	authed.POST("/check",api.TokenCheck)
 		//}
 	}
-	v1.GET("/project/list/*page",api.ProjectList)
-	v1.POST("/project/search",api.SearchProject)
+	v1.GET("/project/list/*page", api.ProjectList)
+	v1.POST("/project/search", api.SearchProject)
 	return r
 }
