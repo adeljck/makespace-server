@@ -13,9 +13,8 @@ import (
 )
 // @Summary 项目列表
 // @Description 项目列表
-// @accept json
 // @Produce  json
-// @Param projects body service.Project true "project"
+// @Param page path int64 true "page"
 // @Success 200 {object} serializer.Response "{"status": 200,"data":{"item":[],total:int},"msg": "success" }"
 // @Router /project/list/{page} [get]
 func ProjectList(c *gin.Context) {

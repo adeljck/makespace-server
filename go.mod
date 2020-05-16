@@ -42,5 +42,6 @@ require (
 	golang.org/x/tools v0.0.0-20200509030707-2212a7e161a5 // indirect
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/go-playground/validator.v9 v9.31.0
+	gopkg.in/yaml.v2 v2.3.0
 	qiniupkg.com/x v7.0.8+incompatible // indirect
 )

@@ -43,25 +43,6 @@ definitions:
     - phone
     - site
     type: object
-  service.Project:
-    properties:
-      _id:
-        type: string
-      creator:
-        type: string
-      money:
-        type: number
-      project_name:
-        type: string
-      short_info:
-        type: string
-      start_time:
-        type: string
-      status:
-        type: integer
-      stop_time:
-        type: string
-    type: object
   service.ProjectAdd:
     properties:
       attach:
@@ -168,6 +149,18 @@ info:
   title: 湖南工学院创客系统API
   version: "1.0"
 paths:
+  /academy/list/{page}:
+    get:
+      description: 学院列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"data":{"item":[],total:int},"msg": "success"
+            }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 学院列表
   /enterpriseapply:
     post:
       consumes:
@@ -200,6 +193,18 @@ paths:
           schema:
             $ref: '#/definitions/serializer.Response'
       summary: 企业入驻
+  /industry/list/{page}:
+    get:
+      description: 行业列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"data":{"item":[],total:int},"msg": "success"
+            }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 行业列表
   /login:
     post:
       consumes:
@@ -288,16 +293,13 @@ paths:
       summary: 添加项目
   /project/list/{page}:
     get:
-      consumes:
-      - application/json
       description: 项目列表
       parameters:
-      - description: project
-        in: body
-        name: projects
+      - description: page
+        in: path
+        name: page
         required: true
-        schema:
-          $ref: '#/definitions/service.Project'
+        type: integer
       produces:
       - application/json
       responses:

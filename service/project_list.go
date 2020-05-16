@@ -10,7 +10,7 @@ import (
 )
 
 type Project struct {
-	Id           primitive.ObjectID `form:"_id" json:"_id" bson:"_id"`
+	Id           primitive.ObjectID `json:"_id" bson:"_id"`
 	StartTime    time.Time          `bson:"start_time" json:"start_time"`
 	StopTime     time.Time          `bson:"stop_time" json:"stop_time"`
 	ProjectName  string             `bson:"project_name" json:"project_name"`

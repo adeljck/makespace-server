@@ -18,6 +18,23 @@
     "host": "127.0.0.1:3000",
     "basePath": "/api/v1",
     "paths": {
+        "/academy/list/{page}": {
+            "get": {
+                "description": "学院列表",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "学院列表",
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"data\":{\"item\":[],total:int},\"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/enterpriseapply": {
             "post": {
                 "description": "企业入驻",
@@ -60,6 +77,23 @@
                     },
                     "4003": {
                         "description": "code\":4003,\"data\":null,\"msg\":\"Tag Error\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/industry/list/{page}": {
+            "get": {
+                "description": "行业列表",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "行业列表",
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"data\":{\"item\":[],total:int},\"msg\": \"success\" }",
                         "schema": {
                             "$ref": "#/definitions/serializer.Response"
                         }
@@ -200,22 +234,17 @@
         "/project/list/{page}": {
             "get": {
                 "description": "项目列表",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
                 "summary": "项目列表",
                 "parameters": [
                     {
-                        "description": "project",
-                        "name": "projects",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/service.Project"
-                        }
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -336,35 +365,6 @@
                     "type": "string"
                 },
                 "site": {
-                    "type": "string"
-                }
-            }
-        },
-        "service.Project": {
-            "type": "object",
-            "properties": {
-                "_id": {
-                    "type": "string"
-                },
-                "creator": {
-                    "type": "string"
-                },
-                "money": {
-                    "type": "number"
-                },
-                "project_name": {
-                    "type": "string"
-                },
-                "short_info": {
-                    "type": "string"
-                },
-                "start_time": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
-                },
-                "stop_time": {
                     "type": "string"
                 }
             }

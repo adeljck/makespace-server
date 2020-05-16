@@ -3,7 +3,7 @@ package server
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/swaggo/gin-swagger"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"makespace-remaster/api"
 	_ "makespace-remaster/docs"
@@ -32,10 +32,12 @@ func NewRouter() *gin.Engine {
 			param.ErrorMessage,
 		)
 	}))
-	r.GET("/api/v1/ping", api.Ping)
-	r.GET("/api/v1/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	v1 := r.Group("api/v1/")
 	{
+		v1.GET("/academy/list", api.GetAcademy)
+		v1.GET("/indestry/list", api.GetIndustry)
+		v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		v1.GET("/ping", api.Ping)
 		v1.POST("/registe", api.UserRegiste)
 		v1.POST("/login", api.UserLogin)
 		v1.POST("/enterpriseapply", api.EnterpriseApply)
