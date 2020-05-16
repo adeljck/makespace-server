@@ -9,16 +9,16 @@ import (
 )
 
 type Enterprise struct {
-	Name        string    `form:"name" json:"name" validate:"required,min=2,max=25"`
-	Website     string    `form:"site" json:"site" validate:"required,min=8,max=40"`
-	Legal       string    `form:"legal" json:"legal" validate:"required,min=2,max=6"`
-	LegalId     string    `form:"legalid" json:"legalid" validate:"required,min=18,max=18"`
-	Phone       string    `form:"phone" json:"phone" validate:"required,min=5,max=15"`
-	Email       string    `form:"email" json:"email" validate:"required,email,min=8,max=50"`
-	Industry    string    `form:"industry" json:"industry" validate:"required,min=2,max=8"`
-	Info        string    `form:"info" json:"info" validate:"required,max=150"`
-	Date        time.Time `form:"date" json:"date" validate:"required"`
-	Companycode string    `form:"companycode" json:"companycode" validate:"required,min=18,max=18"`
+	Name        string    `json:"name" validate:"required,min=2,max=25"`
+	Website     string    `json:"site" validate:"required,min=8,max=40"`
+	Legal       string    `json:"legal" validate:"required,min=2,max=6"`
+	LegalId     string    `json:"legalid" validate:"required,min=18,max=18"`
+	Phone       string    `json:"phone" validate:"required,min=5,max=15"`
+	Email       string    `json:"email" validate:"required,email,min=8,max=50"`
+	Industry    string    `json:"industry" validate:"required,min=2,max=8"`
+	Info        string    `json:"info" validate:"required,max=150"`
+	Date        time.Time `json:"date" validate:"required"`
+	Companycode string    `json:"companycode" validate:"required,min=18,max=18"`
 }
 
 func (service *Enterprise) countData(filter interface{}) bool {

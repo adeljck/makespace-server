@@ -1,16 +1,5 @@
 basePath: /api/v1
 definitions:
-  module.Contact:
-    properties:
-      email:
-        type: string
-      phone:
-        type: string
-      qq:
-        type: string
-      wechat:
-        type: string
-    type: object
   serializer.Response:
     properties:
       data:
@@ -58,12 +47,27 @@ definitions:
     properties:
       _id:
         type: string
+      creator:
+        type: string
+      money:
+        type: number
+      project_name:
+        type: string
+      short_info:
+        type: string
+      start_time:
+        type: string
+      status:
+        type: integer
+      stop_time:
+        type: string
+    type: object
+  service.ProjectAdd:
+    properties:
       attach:
         type: string
-      comment_count:
-        type: integer
       contact:
-        $ref: '#/definitions/module.Contact'
+        $ref: '#/definitions/service.contact'
         type: object
       creator:
         type: string
@@ -81,6 +85,17 @@ definitions:
         type: integer
       stop_time:
         type: string
+    required:
+    - attach
+    - contact
+    - creator
+    - info
+    - money
+    - project_name
+    - short_info
+    - start_time
+    - status
+    - stop_time
     type: object
   service.User:
     properties:
@@ -125,6 +140,19 @@ definitions:
     required:
     - password
     - username
+    type: object
+  service.contact:
+    properties:
+      email:
+        type: string
+      phone:
+        type: string
+      qq:
+        type: string
+      wechat:
+        type: string
+    required:
+    - email
     type: object
 host: 127.0.0.1:3000
 info:
@@ -226,6 +254,38 @@ paths:
           schema:
             $ref: '#/definitions/serializer.Response'
       summary: 服务器状态检查
+  /project/add:
+    post:
+      consumes:
+      - application/json
+      description: 添加项目
+      parameters:
+      - description: project
+        in: body
+        name: projects
+        required: true
+        schema:
+          $ref: '#/definitions/service.ProjectAdd'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"data":bull,"msg": "success" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4001":
+          description: code":4001,"data":null,"msg":"JSON类型不匹配"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4002":
+          description: code":4002,"data":null,"msg":"参数错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4003":
+          description: code":4003,"data":null,"msg":"Tag Error"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 添加项目
   /project/list/{page}:
     get:
       consumes:
@@ -242,7 +302,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: '{"status": 200,"data":{"item":[],total:0},"msg": "success"
+          description: '{"status": 200,"data":{"item":[],total:int},"msg": "success"
             }'
           schema:
             $ref: '#/definitions/serializer.Response'

@@ -16,12 +16,8 @@ type Project struct {
 	ProjectName  string             `bson:"project_name" json:"project_name"`
 	Creator      string             `bson:"creator" json:"creator"`
 	Status       int                `bson:"status" json:"status"`
-	Info         string             `bson:"info" json:"info"`
 	ShortInfo    string             `bson:"short_info" json:"short_info"`
-	Attach       string             `bson:"attach" json:"attach"`
 	Money        float64            `bson:"money" json:"money"`
-	Contact      module.Contact     `bson:"contact" json:"contact"`
-	CommentCount int                `bson:"comment_count" json:"comment_count"`
 }
 
 func ProjectList(page int64) (datas []Project, err error) {

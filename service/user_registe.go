@@ -9,16 +9,16 @@ import (
 )
 
 type User struct {
-	Password   string    `form:"password" json:"password" validate:"required,min=8,max=40"`
-	Repassword string    `form:"repassword" json:"repassword" validate:"required,min=8,max=40"`
-	Phone      string    `form:"phone" json:"phone" validate:"required,min=5,max=15"`
-	Email      string    `form:"email" json:"email" validate:"required,email,min=8,max=50"`
-	Name       string    `form:"name" json:"name" validate:"required,min=2,max=6"`
-	Academy    string    `form:"academy" json:"academy" validate:"required,min=3,max=20"`
-	Sid        string    `form:"sid" json:"sid" validate:"required,min=8,max=15"`
-	Major      string    `form:"major" json:"major" validate:"required,min=4,max=15"`
-	Class      string    `form:"class" json:"class" validate:"required,min=4,max=10"`
-	Date       time.Time `form:"date" json:"date" validate:"required"`
+	Password   string    ` json:"password" validate:"required,min=8,max=40"`
+	Repassword string    ` json:"repassword" validate:"required,min=8,max=40"`
+	Phone      string    ` json:"phone" validate:"required,min=5,max=15"`
+	Email      string    ` json:"email" validate:"required,email,min=8,max=50"`
+	Name       string    ` json:"name" validate:"required,min=2,max=6"`
+	Academy    string    ` json:"academy" validate:"required,min=3,max=20"`
+	Sid        string    ` json:"sid" validate:"required,min=8,max=15"`
+	Major      string    ` json:"major" validate:"required,min=4,max=15"`
+	Class      string    ` json:"class" validate:"required,min=4,max=10"`
+	Date       time.Time ` json:"date" validate:"required"`
 }
 func (user *User) trans() module.User {
 	data := module.User{

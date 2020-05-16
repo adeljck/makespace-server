@@ -15,13 +15,13 @@ import (
 
 // UserLoginService 管理用户登录的服务
 type UserLoginService struct {
-	UserName string `form:"username" json:"username" validate:"required"`
-	Password string `form:"password" json:"password" validate:"required"`
+	UserName string ` json:"username" validate:"required"`
+	Password string ` json:"password" validate:"required"`
 }
 type Info struct {
-	Name   string             `form:"name" json:"name" bson:"name"`
-	Status int             `form:"status" json:"status" bson:"status"`
-	ID     primitive.ObjectID `form:"_id" json:"_id" bson:"_id"`
+	Name   string             ` json:"name" bson:"name"`
+	Status int             ` json:"status" bson:"status"`
+	ID     primitive.ObjectID ` json:"_id" bson:"_id"`
 }
 
 func (userLoginService *UserLoginService) valid() *serializer.Response {

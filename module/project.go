@@ -27,7 +27,7 @@ type Project struct {
 	ShortInfo    string    `bson:"short_info" json:"short_info"`
 	Attach       string    `bson:"attach" json:"attach"`
 	Avatar       string    `bson:"avatar" json:"avatar"`
-	Money        string    `bson:"money" json:"money"`
+	Money        float64    `bson:"money" json:"money"`
 	Contact      Contact   `bson:"contact" json:"contact"`
 	CommentCount int       `bson:"comment_count" json:"comment_count"`
 }

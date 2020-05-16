@@ -39,12 +39,13 @@ func NewRouter() *gin.Engine {
 		v1.POST("/registe", api.UserRegiste)
 		v1.POST("/login", api.UserLogin)
 		v1.POST("/enterpriseapply", api.EnterpriseApply)
+		v1.POST("/project/add", api.AddProject)
 		//authed := v1.Group("/", middleware.JWTAuth())
 		//{
 		//	authed.POST("/check",api.TokenCheck)
 		//}
 	}
 	v1.GET("/project/list/*page", api.ProjectList)
-	v1.POST("/project/search", api.SearchProject)
+	//v1.POST("/project/search", api.SearchProject)
 	return r
 }

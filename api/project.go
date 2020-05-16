@@ -16,7 +16,7 @@ import (
 // @accept json
 // @Produce  json
 // @Param projects body service.Project true "project"
-// @Success 200 {object} serializer.Response "{"status": 200,"data":{"item":[],total:0},"msg": "success" }"
+// @Success 200 {object} serializer.Response "{"status": 200,"data":{"item":[],total:int},"msg": "success" }"
 // @Router /project/list/{page} [get]
 func ProjectList(c *gin.Context) {
 	var page int64
@@ -29,6 +29,8 @@ func ProjectList(c *gin.Context) {
 			})
 		}
 		page = int64(p)
+	}else if (c.Param("page")== "0"){
+		page = 1
 	}else{
 		page = 1
 	}
@@ -46,6 +48,25 @@ func ProjectList(c *gin.Context) {
 	}
 
 }
-func SearchProject(c *gin.Context){
-	c.PostForm("")
+// @Summary 添加项目
+// @Description 添加项目
+// @accept json
+// @Produce  json
+// @Param projects body service.ProjectAdd true "project"
+// @Success 200 {object} serializer.Response "{"status": 200,"data":bull,"msg": "success" }"
+// @Failure 4001 {object}  serializer.Response {"code":4001,"data":null,"msg":"JSON类型不匹配"}
+// @Failure 4002 {object}  serializer.Response {"code":4002,"data":null,"msg":"参数错误"}
+// @Failure 4003 {object}  serializer.Response {"code":4003,"data":null,"msg":"Tag Error"}
+// @Router /project/add [post]
+func AddProject(c *gin.Context){
+	var service service.ProjectAdd
+	if err := c.ShouldBindJSON(&service); err == nil {
+		if success, err := service.Apply(); err != nil {
+			c.JSON(http.StatusOK, success)
+		} else {
+			c.JSON(http.StatusOK, err)
+		}
+	} else {
+		c.JSON(http.StatusOK, ErrorResponse(err))
+	}
 }
