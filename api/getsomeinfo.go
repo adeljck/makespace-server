@@ -18,10 +18,15 @@ func GetAcademy(c *gin.Context) {
 	var academies []module.Academy
 	cur, err := module.CLIENT.Mongo.Database("makespace").Collection("academy").Find(context.TODO(), bson.M{}, options.Find().SetSort(bson.M{"_id": -1}))
 	if err != nil {
-		panic(err)
+		c.JSON(http.StatusOK,ErrorResponse(err))
 	}
 	err = cur.All(context.TODO(), &academies)
+	if err != nil {
+		c.JSON(http.StatusOK,ErrorResponse(err))
+	}
 	res := serializer.BuildListResponse(academies, int64(len(academies)))
+	res.Status = http.StatusOK
+	res.Msg = "success"
 	c.JSON(http.StatusOK, res)
 }
 // @Summary 行业列表
@@ -33,10 +38,15 @@ func GetIndustry(c *gin.Context) {
 	var industries []module.Industry
 	cur, err := module.CLIENT.Mongo.Database("makespace").Collection("industry").Find(context.TODO(), bson.M{}, options.Find().SetSort(bson.M{"_id": -1}))
 	if err != nil {
-		panic(err)
+		c.JSON(http.StatusOK,ErrorResponse(err))
 	}
 	err = cur.All(context.TODO(), &industries)
+	if err != nil {
+		c.JSON(http.StatusOK,ErrorResponse(err))
+	}
 	res := serializer.BuildListResponse(industries, int64(len(industries)))
+	res.Status = http.StatusOK
+	res.Msg = "success"
 	c.JSON(http.StatusOK, res)
 }
 
