@@ -62,12 +62,6 @@ func (service *Enterprise) valid() *serializer.Response {
 			Error: "该代码已被注册",
 		})
 	}
-	if count, _ := module.CLIENT.Mongo.Database("makespace").Collection("industry").CountDocuments(context.TODO(), bson.M{"name": service.Industry}); count == 0 {
-		errors = append(errors, serializer.TagError{
-			Tag:   "industry",
-			Error: "所选行业不存在",
-		})
-	}
 	if len(errors) != 0 {
 		return &serializer.Response{
 			Status: 50001,
@@ -95,13 +89,21 @@ func (user *Enterprise) trans() module.Enterprise {
 	}
 	return data
 }
-func (user *Enterprise) Apply() (*serializer.PureErrorResponse, *serializer.Response) {
+func (user *Enterprise) Apply(role int) (*serializer.PureErrorResponse, *serializer.Response) {
+	if role==1{
+		return nil, &serializer.Response{
+			Status: 501,
+			Data:   nil,
+			Msg:    "用户无权限",
+		}
+	}
 	if err := TagValid(user); err != nil {
 		return nil, err
 	}
 	if err := user.valid(); err != nil {
 		return nil, err
 	}
+
 	module.CLIENT.Mongo.Database("makespace").Collection("enterprise").InsertOne(context.TODO(), user.trans())
 	return &serializer.PureErrorResponse{
 		Status: 200,

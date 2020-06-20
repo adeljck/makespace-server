@@ -20,8 +20,9 @@ type UserLoginService struct {
 }
 type Info struct {
 	Name   string             ` json:"name" bson:"name"`
-	Status int             ` json:"status" bson:"status"`
+	Status int                ` json:"status" bson:"status"`
 	ID     primitive.ObjectID ` json:"_id" bson:"_id"`
+	Role   int                ` json:"role" bson:"role"`
 }
 
 func (userLoginService *UserLoginService) valid() *serializer.Response {
@@ -56,7 +57,7 @@ func (service *UserLoginService) Login() (*Info, *serializer.Response) {
 	if err := service.valid(); err != nil {
 		return nil, err
 	}
-	if service.countData(bson.M{"email": service.UserName}) {
+	if service.countData(bson.M{"email": service.UserName}) == false {
 		return nil, &serializer.Response{
 			Status: 40005,
 			Msg:    "账号或密码错误",
@@ -70,7 +71,7 @@ func (service *UserLoginService) Login() (*Info, *serializer.Response) {
 		}
 	}
 	var data Info
-	module.CLIENT.Mongo.Database("makespace").Collection("user").FindOne(context.TODO(), bson.M{"email": service.UserName}, options.FindOne().SetProjection(bson.D{{"_id", 1}, {"status", 1}, {"name", 1}})).Decode(&data)
+	module.CLIENT.Mongo.Database("makespace").Collection("user").FindOne(context.TODO(), bson.M{"email": service.UserName}, options.FindOne().SetProjection(bson.D{{"_id", 1}, {"status", 1}, {"name", 1},{"role",1}})).Decode(&data)
 	if data.Status == module.DEACTIVE {
 		return nil, &serializer.Response{
 			Status: 40006,

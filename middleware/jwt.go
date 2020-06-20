@@ -18,7 +18,7 @@ import (
 // JWTAuth 中间件，检查token
 func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.Request.Header.Get("Athorization")
+		token := c.Request.Header.Get("Authorization")
 		if token == "" {
 			c.JSON(http.StatusOK, serializer.PureErrorResponse{
 				Status: -1,
@@ -32,7 +32,7 @@ func JWTAuth() gin.HandlerFunc {
 		claims, err := j.ParseToken(token)
 		if claims == nil || err != nil {
 			c.JSON(http.StatusOK, serializer.PureErrorResponse{
-				Status: -1,
+				Status: -2,
 				Msg:    "不合法的token",
 			})
 			c.Abort()
@@ -41,7 +41,7 @@ func JWTAuth() gin.HandlerFunc {
 		if err != nil {
 			if err == TokenExpired {
 				c.JSON(http.StatusOK, serializer.PureErrorResponse{
-					Status: -1,
+					Status: -3,
 					Msg:    "Token过期",
 				})
 				c.Abort()
@@ -76,6 +76,7 @@ var (
 // 载荷，可以加一些自己需要的信息
 type CustomClaims struct {
 	Id string `json:"id"`
+	Role int `json:role`
 	jwt.StandardClaims
 }
 
@@ -152,8 +153,12 @@ func GenerateToken(c *gin.Context, info *service.Info) {
 	j := &JWT{
 		[]byte(signKey),
 	}
+	//if c.FullPath() == "/api/v1/forget"{
+	//	j.SigningKey = []byte(os.Getenv("RESET_SESSIONSECRET"))
+	//}
 	claims := CustomClaims{
 		info.ID.Hex(),
+		info.Role,
 		jwt.StandardClaims{
 			NotBefore: int64(time.Now().Unix() - 1000), // 签名生效时间
 			ExpiresAt: int64(time.Now().Unix() + 1800), // 过期时间 一小时
@@ -172,10 +177,10 @@ func GenerateToken(c *gin.Context, info *service.Info) {
 	}
 	c.JSON(http.StatusOK,serializer.Response{
 		Status: 200,
-		Data:   gin.H{"_id":info.ID.Hex(),"token":token,"name":info.Name},
+		Data:   gin.H{"_id":info.ID.Hex(),"token":token,"name":info.Name,"role":info.Role,"status":info.Status},
 		Msg:    "success",
 	})
-	c.Request.Header.Set("token",token)
+	c.Header("Authorization","Bearer "+token)
 	return
 
 }

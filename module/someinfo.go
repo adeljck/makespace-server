@@ -11,5 +11,9 @@ type Academy struct {
 }
 type Industry struct {
 	Id   primitive.ObjectID `json:"_id" bson:"_id"`
-	Name string             `json:"name" bson:"name"`
+	Name []string             `json:"name" bson:"name"`
+}
+type ProjectType struct {
+	Id   primitive.ObjectID `json:"_id" bson:"_id"`
+	Name []string             `json:"name" bson:"name"`
 }

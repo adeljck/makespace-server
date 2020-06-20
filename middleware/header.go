@@ -9,6 +9,7 @@ import (
 // NoCache is a middleware function that appends headers
 // to prevent the client from caching the HTTP response.
 func NoCache(c *gin.Context) {
+	c.Header("Authorization", c.Request.Header.Get("Authorization"))
 	c.Header("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate, value")
 	c.Header("Expires", "Thu, 01 Jan 1970 00:00:00 GMT")
 	c.Header("Last-Modified", time.Now().UTC().Format(http.TimeFormat))
@@ -26,6 +27,7 @@ func Options(c *gin.Context) {
 		c.Header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS")
 		c.Header("Access-Control-Allow-Headers", "Authorization, origin, content-type, accept")
 		c.Header("Allow", "HEAD,GET,POST,PUT,PATCH,DELETE,OPTIONS")
+		c.Header("Access-Control-Max-Age", "2592000")
 		c.Header("Content-Type", "application/json")
 		c.AbortWithStatus(200)
 	}
@@ -43,5 +45,5 @@ func Secure(c *gin.Context) {
 	}
 
 	// Also consider adding Content-Security-Policy headers
-	// c.Header("Content-Security-Policy", "script-src 'self' https://cdnjs.cloudflare.com")
+	//c.Header("Content-Security-Policy", "script-src 'self' https://cdnjs.cloudflare.com")
 }

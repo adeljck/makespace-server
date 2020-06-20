@@ -9,6 +9,7 @@ require (
 	github.com/astaxie/beego v1.12.1 // indirect
 	github.com/baidubce/bce-sdk-go v0.9.6 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
+	github.com/dchest/captcha v0.0.0-20170622155422-6a29415a8364
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/garyburd/redigo v1.6.0
 	github.com/gin-contrib/sessions v0.0.3
@@ -34,6 +35,7 @@ require (
 	github.com/tencentyun/cos-go-sdk-v5 v0.0.0-20200120023323-87ff3bc489ac // indirect
 	github.com/upyun/go-sdk v2.1.0+incompatible // indirect
 	github.com/urfave/cli v1.22.4 // indirect
+	github.com/zcshan/gtee v0.0.0-20180929020559-89e9ab26d06e // indirect
 	go.mongodb.org/mongo-driver v1.3.0
 	golang.org/x/crypto v0.0.0-20200208060501-ecb85df21340
 	golang.org/x/net v0.0.0-20200506145744-7e3656a0809f // indirect

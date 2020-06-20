@@ -18,7 +18,7 @@
     "host": "127.0.0.1:3000",
     "basePath": "/api/v1",
     "paths": {
-        "/academy/list/{page}": {
+        "/academy": {
             "get": {
                 "description": "学院列表",
                 "produces": [
@@ -84,7 +84,117 @@
                 }
             }
         },
-        "/industry/list/{page}": {
+        "/forget": {
+            "post": {
+                "description": "忘记密码",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "忘记密码",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.UserForget"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"data\":{\"_id\":000000,\"token\":token,\"name\":adeljck},\"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4001": {
+                        "description": "code\":4001,\"data\":null,\"msg\":\"JSON类型不匹配\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4002": {
+                        "description": "code\":4002,\"data\":null,\"msg\":\"参数错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4003": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"Tag Error\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4006": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"unauthrized account\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/forget/changepassword": {
+            "post": {
+                "description": "忘记密码-\u003e修改密码",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "忘记密码-\u003e修改密码",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.UserForgetChangePassword"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4001": {
+                        "description": "code\":4001,\"data\":null,\"msg\":\"JSON类型不匹配\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4002": {
+                        "description": "code\":4002,\"data\":null,\"msg\":\"参数错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4003": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"Tag Error\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4006": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"unauthrized account\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/industry": {
             "get": {
                 "description": "行业列表",
                 "produces": [
@@ -162,6 +272,61 @@
                 }
             }
         },
+        "/mine/changepassword": {
+            "post": {
+                "description": "用户修改密码",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "用户修改密码",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.UserChangePassword"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4001": {
+                        "description": "code\":4001,\"data\":null,\"msg\":\"JSON类型不匹配\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4002": {
+                        "description": "code\":4002,\"data\":null,\"msg\":\"参数错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4003": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"Tag Error\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4006": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"unauthrized account\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "服务器状态检查",
@@ -182,7 +347,54 @@
                 }
             }
         },
-        "/project/add": {
+        "/project": {
+            "put": {
+                "description": "接手项目",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "接手项目",
+                "parameters": [
+                    {
+                        "description": "project",
+                        "name": "projects",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.GetProject"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"data\":bull,\"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4001": {
+                        "description": "code\":4001,\"data\":null,\"msg\":\"JSON类型不匹配\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4002": {
+                        "description": "code\":4002,\"data\":null,\"msg\":\"参数错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4003": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"failed\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "添加项目",
                 "consumes": [
@@ -229,9 +441,103 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "删除项目",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除项目",
+                "parameters": [
+                    {
+                        "description": "project",
+                        "name": "projects",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.ProjectDelete"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"data\":bull,\"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4001": {
+                        "description": "code\":4001,\"data\":null,\"msg\":\"JSON类型不匹配\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4002": {
+                        "description": "code\":4002,\"data\":null,\"msg\":\"参数错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4003": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"failed\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
             }
         },
-        "/project/list/{page}": {
+        "/project/{id}": {
+            "get": {
+                "description": "获取项目详细信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "获取项目详细信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status\": 200,\"data\":items,\"msg\": \"success\" }",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4001": {
+                        "description": "code\":4001,\"data\":null,\"msg\":\"JSON类型不匹配\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4002": {
+                        "description": "code\":4002,\"data\":null,\"msg\":\"参数错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    },
+                    "4003": {
+                        "description": "code\":4003,\"data\":null,\"msg\":\"failed\"}",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{page}": {
             "get": {
                 "description": "项目列表",
                 "produces": [
@@ -308,6 +614,17 @@
         }
     },
     "definitions": {
+        "serializer.PureErrorResponse": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "object"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
         "serializer.Response": {
             "type": "object",
             "properties": {
@@ -369,6 +686,14 @@
                 }
             }
         },
+        "service.GetProject": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
         "service.ProjectAdd": {
             "type": "object",
             "required": [
@@ -417,6 +742,17 @@
                 }
             }
         },
+        "service.ProjectDelete": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
         "service.User": {
             "type": "object",
             "required": [
@@ -460,6 +796,59 @@
                     "type": "string"
                 },
                 "sid": {
+                    "type": "string"
+                }
+            }
+        },
+        "service.UserChangePassword": {
+            "type": "object",
+            "required": [
+                "oldpassword",
+                "password",
+                "repassword"
+            ],
+            "properties": {
+                "oldpassword": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "repassword": {
+                    "type": "string"
+                }
+            }
+        },
+        "service.UserForget": {
+            "type": "object",
+            "required": [
+                "email",
+                "phone",
+                "sid"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "sid": {
+                    "type": "string"
+                }
+            }
+        },
+        "service.UserForgetChangePassword": {
+            "type": "object",
+            "required": [
+                "password",
+                "repassword"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "repassword": {
                     "type": "string"
                 }
             }

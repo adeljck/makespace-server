@@ -1,5 +1,12 @@
 basePath: /api/v1
 definitions:
+  serializer.PureErrorResponse:
+    properties:
+      msg:
+        type: object
+      status:
+        type: integer
+    type: object
   serializer.Response:
     properties:
       data:
@@ -43,6 +50,11 @@ definitions:
     - phone
     - site
     type: object
+  service.GetProject:
+    properties:
+      id:
+        type: string
+    type: object
   service.ProjectAdd:
     properties:
       attach:
@@ -78,6 +90,13 @@ definitions:
     - status
     - stop_time
     type: object
+  service.ProjectDelete:
+    properties:
+      id:
+        type: string
+    required:
+    - id
+    type: object
   service.User:
     properties:
       academy:
@@ -111,6 +130,42 @@ definitions:
     - phone
     - repassword
     - sid
+    type: object
+  service.UserChangePassword:
+    properties:
+      oldpassword:
+        type: string
+      password:
+        type: string
+      repassword:
+        type: string
+    required:
+    - oldpassword
+    - password
+    - repassword
+    type: object
+  service.UserForget:
+    properties:
+      email:
+        type: string
+      phone:
+        type: string
+      sid:
+        type: string
+    required:
+    - email
+    - phone
+    - sid
+    type: object
+  service.UserForgetChangePassword:
+    properties:
+      password:
+        type: string
+      repassword:
+        type: string
+    required:
+    - password
+    - repassword
     type: object
   service.UserLoginService:
     properties:
@@ -149,7 +204,7 @@ info:
   title: 湖南工学院创客系统API
   version: "1.0"
 paths:
-  /academy/list/{page}:
+  /academy:
     get:
       description: 学院列表
       produces:
@@ -193,7 +248,80 @@ paths:
           schema:
             $ref: '#/definitions/serializer.Response'
       summary: 企业入驻
-  /industry/list/{page}:
+  /forget:
+    post:
+      consumes:
+      - application/json
+      description: 忘记密码
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/service.UserForget'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"data":{"_id":000000,"token":token,"name":adeljck},"msg":
+            "success" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4001":
+          description: code":4001,"data":null,"msg":"JSON类型不匹配"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4002":
+          description: code":4002,"data":null,"msg":"参数错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4003":
+          description: code":4003,"data":null,"msg":"Tag Error"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4006":
+          description: code":4003,"data":null,"msg":"unauthrized account"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 忘记密码
+  /forget/changepassword:
+    post:
+      consumes:
+      - application/json
+      description: 忘记密码->修改密码
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/service.UserForgetChangePassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"msg": "success" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4001":
+          description: code":4001,"data":null,"msg":"JSON类型不匹配"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4002":
+          description: code":4002,"data":null,"msg":"参数错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4003":
+          description: code":4003,"data":null,"msg":"Tag Error"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4006":
+          description: code":4003,"data":null,"msg":"unauthrized account"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 忘记密码->修改密码
+  /industry:
     get:
       description: 行业列表
       produces:
@@ -246,6 +374,42 @@ paths:
           schema:
             $ref: '#/definitions/serializer.Response'
       summary: 用户登陆
+  /mine/changepassword:
+    post:
+      consumes:
+      - application/json
+      description: 用户修改密码
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/service.UserChangePassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"msg": "success" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4001":
+          description: code":4001,"data":null,"msg":"JSON类型不匹配"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4002":
+          description: code":4002,"data":null,"msg":"参数错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4003":
+          description: code":4003,"data":null,"msg":"Tag Error"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4006":
+          description: code":4003,"data":null,"msg":"unauthrized account"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 用户修改密码
   /ping:
     get:
       consumes:
@@ -259,7 +423,38 @@ paths:
           schema:
             $ref: '#/definitions/serializer.Response'
       summary: 服务器状态检查
-  /project/add:
+  /project:
+    delete:
+      consumes:
+      - application/json
+      description: 删除项目
+      parameters:
+      - description: project
+        in: body
+        name: projects
+        required: true
+        schema:
+          $ref: '#/definitions/service.ProjectDelete'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"data":bull,"msg": "success" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4001":
+          description: code":4001,"data":null,"msg":"JSON类型不匹配"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4002":
+          description: code":4002,"data":null,"msg":"参数错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4003":
+          description: code":4003,"data":null,"msg":"failed"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 删除项目
     post:
       consumes:
       - application/json
@@ -291,7 +486,69 @@ paths:
           schema:
             $ref: '#/definitions/serializer.Response'
       summary: 添加项目
-  /project/list/{page}:
+    put:
+      consumes:
+      - application/json
+      description: 接手项目
+      parameters:
+      - description: project
+        in: body
+        name: projects
+        required: true
+        schema:
+          $ref: '#/definitions/service.GetProject'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"data":bull,"msg": "success" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4001":
+          description: code":4001,"data":null,"msg":"JSON类型不匹配"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4002":
+          description: code":4002,"data":null,"msg":"参数错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4003":
+          description: code":4003,"data":null,"msg":"failed"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 接手项目
+  /project/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 获取项目详细信息
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"status": 200,"data":items,"msg": "success" }'
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4001":
+          description: code":4001,"data":null,"msg":"JSON类型不匹配"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4002":
+          description: code":4002,"data":null,"msg":"参数错误"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+        "4003":
+          description: code":4003,"data":null,"msg":"failed"}
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 获取项目详细信息
+  /projects/{page}:
     get:
       description: 项目列表
       parameters:
